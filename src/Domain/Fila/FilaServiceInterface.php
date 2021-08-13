@@ -10,5 +10,7 @@ namespace Mola\Common\Domain\Fila;
  */
 interface FilaServiceInterface
 {
-
+    public function consumir(string $fila);
+    public function enviarMensagem(string $fila, string $mensagem);
+    public function desligar();
 }
