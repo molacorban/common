@@ -1,6 +1,6 @@
 <?php
 
-namespace Mola\Common\Domain\Fila\Adapters;
+namespace Mola\Common\Domain\Fila;
 
 use Mola\Common\Domain\Fila\FilaService;
 

@@ -7,7 +7,7 @@ use Mola\Common\Domain\Armazenamento\ArmazenamentoService;
 use Mola\Common\Domain\Armazenamento\ArmazenamentoServiceInterface;
 use Mola\Common\Domain\Criptografia\CriptografiaService;
 use Mola\Common\Domain\Criptografia\CriptografiaServiceInterface;
-use Mola\Common\Domain\Fila\Adapters\FilaServiceFactory;
+use Mola\Common\Domain\Fila\FilaServiceFactory;
 use Mola\Common\Domain\Fila\FilaService;
 use Mola\Common\Domain\Fila\FilaServiceInterface;
 use Mola\Common\Domain\HttpClient\HttpClientService;
