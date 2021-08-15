@@ -18,6 +18,15 @@ Via Composer
 ``` bash
 $ composer require mola/common
 ```
+## Configuração
+
+``` 
+MENSAGERIA_HOST=host.amqp.rabbitmq.com.br (Mudar)
+MENSAGERIA_PORT=5672 (Mudar)
+MENSAGERIA_USUARIO=guest (Mudar)
+MENSAGERIA_SENHA=guest (Mudar)
+MENSAGERIA_VHOST=guest (Mudar)
+```
 
 ## Testes
 
