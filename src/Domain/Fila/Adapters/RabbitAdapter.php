@@ -49,12 +49,22 @@ final class RabbitAdapter implements FilaServiceInterface
         $this->canal = $this->conexao->channel();
     }
     
-    public function consumir(string $fila)
+    public function consumir(string $fila): void
     {
-        $this->fila = $fila;
+        $this->conexao->queue_declare($fila, false, false, false, false);
+
+        $callback = function($msg) {
+            echo " Mensagem Recebida [x] ", $msg->body, "\n";
+        };
+
+        $this->canal->basic_consume($fila, '', false, true, false, false, $callback);
+
+        while(count($this->canal->callbacks)) {
+            $this->canal->wait();
+        }
     }
 
-    public function enviarMensagem(string $fila, string $mensagem)
+    public function enviarMensagem(string $fila, string $mensagem): void
     {
         $this->canal->queue_declare(
             $fila,
@@ -77,10 +87,10 @@ final class RabbitAdapter implements FilaServiceInterface
         ]);
 
         $this->canal->basic_publish($mensagemAEnviar, $this->getExchange());
-        $this->fechar();
+        $this->desligar();
     }
 
-    public function fechar()
+    public function desligar(): void
     {
         $this->canal->close();
         $this->conexao->close();

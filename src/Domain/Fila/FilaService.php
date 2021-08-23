@@ -17,17 +17,17 @@ class FilaService implements FilaServiceInterface
         $this->adapter = $adapter;
     }
 
-    public function consumir(string $fila)
+    public function consumir(string $fila): void
     {
         $this->adapter->consumir($fila);
     }
 
-    public function enviarMensagem(string $fila, string $mensagem)
+    public function enviarMensagem(string $fila, string $mensagem): void
     {
         $this->adapter->enviarMensagem($fila, $mensagem);
     }
 
-    public function desligar()
+    public function desligar(): void
     {
         $this->adapter->desligar();
     }
