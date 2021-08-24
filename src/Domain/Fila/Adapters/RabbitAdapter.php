@@ -40,11 +40,10 @@ final class RabbitAdapter implements FilaServiceInterface
     {
         $this->setExchange($exchange);
         $this->conexao = new AMQPStreamConnection(
-            getenv('MENSAGERIA_HOST'),
-            getenv('MENSAGERIA_PORT'),
-            getenv('MENSAGERIA_USUARIO'),
-            getenv('MENSAGERIA_SENHA'),
-            getenv('MENSAGERIA_VHOST')
+            getenv('RABBITMQ_HOST'),
+            getenv('RABBITMQ_PORT'),
+            getenv('RABBITMQ_USER'),
+            getenv('RABBITMQ_PASSWORD')
         );
         $this->canal = $this->conexao->channel();
     }
