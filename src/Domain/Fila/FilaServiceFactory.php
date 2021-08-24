@@ -18,7 +18,7 @@ class FilaServiceFactory
     {
         $adapter = env('FILA_ADAPTER', 'rabbit');
         $adapter = app(self::NAMESPACE_ADAPTER . ucfirst($adapter)."Adapter");
-
+var_dump($adapter);die;
         return new FilaService($adapter);
     }
 }
