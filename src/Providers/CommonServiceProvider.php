@@ -34,7 +34,13 @@ class CommonServiceProvider extends ServiceProvider
     {
         $this->app->bind(ArmazenamentoServiceInterface::class, ArmazenamentoService::class);
         $this->app->bind(CriptografiaServiceInterface::class, CriptografiaService::class);
-        $this->app->bind(FilaServiceInterface::class, FilaServiceFactory::class);
+        $this->app->bind(FilaServiceInterface::class, function() {
+            $namespace = 'Mola\\Common\\Domain\\Fila\\Adapters\\';
+            $adapter = env('FILA_ADAPTER', 'rabbit');
+            $adapter = app($namespace . ucfirst($adapter)."Adapter");
+
+            return new FilaService($adapter);
+        });
         $this->app->bind(HttpClientServiceInterface::class, HttpClientService::class);
         $this->app->bind(LogServiceInterface::class, LogService::class);
     }
