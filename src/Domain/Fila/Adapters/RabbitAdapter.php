@@ -45,6 +45,7 @@ final class RabbitAdapter implements FilaServiceInterface
             getenv('RABBITMQ_USER'),
             getenv('RABBITMQ_PASSWORD')
         );
+        dd($this->conexao);
         $this->canal = $this->conexao->channel();
     }
     
