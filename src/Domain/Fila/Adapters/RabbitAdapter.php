@@ -16,29 +16,9 @@ final class RabbitAdapter implements FilaServiceInterface
 {
     private AMQPStreamConnection $conexao;
     private $canal;
-    private $exchange;
 
-    /**
-     * @return mixed
-     */
-    public function getExchange()
+    public function __construct()
     {
-        return $this->exchange;
-    }
-
-    /**
-     * @param mixed $exchange
-     * @return RabbitAdapter
-     */
-    public function setExchange($exchange)
-    {
-        $this->exchange = $exchange;
-        return $this;
-    }
-
-    public function __construct($exchange)
-    {
-        $this->setExchange($exchange);
         $this->conexao = new AMQPStreamConnection(
             env('RABBITMQ_HOST'),
             env('RABBITMQ_PORT'),
@@ -64,29 +44,24 @@ final class RabbitAdapter implements FilaServiceInterface
         }
     }
 
-    public function enviarMensagem(string $fila, string $mensagem): void
+    public function enviarMensagem(string $fila, string $mensagem, string $exchange = ''): void
     {
         $this->canal->queue_declare(
             $fila,
-            false
-            ,true,
-            false,
-            false
-        );
-        $this->canal->exchange_declare(
-            $this->getExchange(),
-            'direct',
             false,
             true,
+            false,
             false
         );
-        $this->canal->queue_bind($fila, $this->getExchange());
+
         $mensagemAEnviar = new AMQPMessage($mensagem, [
             'content_type' => 'text/plain',
             'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT
         ]);
 
-        $this->canal->basic_publish($mensagemAEnviar, $this->getExchange());
+        $this->canal->queue_bind($fila, $exchange);
+
+        $this->canal->basic_publish($mensagemAEnviar, $exchange);
         $this->desligar();
     }
 

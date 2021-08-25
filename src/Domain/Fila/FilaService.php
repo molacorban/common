@@ -11,6 +11,25 @@ namespace Mola\Common\Domain\Fila;
 class FilaService implements FilaServiceInterface
 {
     private FilaServiceInterface $adapter;
+    private $exchange;
+
+    /**
+     * @return FilaServiceInterface
+     */
+    public function getAdapter(): FilaServiceInterface
+    {
+        return $this->adapter;
+    }
+
+    /**
+     * @param FilaServiceInterface $adapter
+     * @return FilaService
+     */
+    public function setAdapter(FilaServiceInterface $adapter): FilaService
+    {
+        $this->adapter = $adapter;
+        return $this;
+    }
 
     public function __construct(FilaServiceInterface $adapter)
     {
@@ -22,9 +41,9 @@ class FilaService implements FilaServiceInterface
         $this->adapter->consumir($fila);
     }
 
-    public function enviarMensagem(string $fila, string $mensagem): void
+    public function enviarMensagem(string $fila, string $mensagem, string $exchange = ''): void
     {
-        $this->adapter->enviarMensagem($fila, $mensagem);
+        $this->adapter->enviarMensagem($fila, $mensagem, $exchange);
     }
 
     public function desligar(): void
