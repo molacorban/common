@@ -31,13 +31,21 @@ final class RabbitAdapter implements FilaServiceInterface
     
     public function consumir(string $fila): void
     {
-        $this->conexao->queue_declare($fila, false, false, false, false);
+        $this->canal->queue_declare($fila, false, true, false, false);
 
         $callback = function($msg) {
             echo " Mensagem Recebida [x] ", $msg->body, "\n";
         };
 
-        $this->canal->basic_consume($fila, '', false, true, false, false, $callback);
+        $this->canal->basic_consume(
+            $fila,
+            '',
+            false,
+            true,
+            false,
+            false,
+            $callback
+        );
 
         while(count($this->canal->callbacks)) {
             $this->canal->wait();
